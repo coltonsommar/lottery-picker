@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lottery Number Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .numbers {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lottery Number Picker</h1>
+        <div class="section" id="powerball">
+            <h2>Powerball Picks</h2>
+            <div id="powerball-results"></div>
+        </div>
+        <div class="section" id="megamillions">
+            <h2>Mega Millions Picks</h2>
+            <div id="megamillions-results"></div>
+        </div>
+        <button onclick="generateNumbers()">Generate More</button>
+    </div>
+
+    <script>
+        const powerballPool = [5, 12, 23, 34, 45, 19, 7, 14, 21, 28, 35, 10, 3, 15, 27, 39, 42, 8];
+        const megamillionsPool = [10, 18, 24, 41, 42, 40, 6, 2, 22, 33, 38, 44, 13];
+
+        function pickNumbers(pool, count) {
+            let picks = [];
+            while (picks.length < count) {
+                let num = pool[Math.floor(Math.random() * pool.length)];
+                if (!picks.includes(num)) picks.push(num);
+            }
+            return picks.sort((a, b) => a - b);
+        }
+
+        function generateNumbers() {
+            const powerballResults = document.getElementById("powerball-results");
+            const megamillionsResults = document.getElementById("megamillions-results");
+            powerballResults.innerHTML = "";
+            megamillionsResults.innerHTML = "";
+
+            for (let i = 0; i < 3; i++) {
+                let mainPB = pickNumbers(powerballPool, 5);
+                let pb = pickNumbers(powerballPool.filter(n => !mainPB.includes(n)), 1);
+                powerballResults.innerHTML += `<div class='numbers'>Main: ${mainPB.join(", ")} | Powerball: ${pb}</div>`;
+
+                let mainMM = pickNumbers(megamillionsPool, 5);
+                let mb = pickNumbers(megamillionsPool.filter(n => !mainMM.includes(n)), 1);
+                megamillionsResults.innerHTML += `<div class='numbers'>Main: ${mainMM.join(", ")} | Mega Ball: ${mb}</div>`;
+            }
+        }
+
+        window.onload = generateNumbers;
+    </script>
+</body>
+</html>
