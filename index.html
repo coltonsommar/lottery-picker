@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,6 +78,10 @@
             return picks.sort((a, b) => a - b);
         }
 
+        function pickBonus(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         function generateNumbers() {
             const powerballResults = document.getElementById("powerball-results");
             const megamillionsResults = document.getElementById("megamillions-results");
@@ -87,11 +90,11 @@
 
             for (let i = 0; i < 3; i++) {
                 let mainPB = pickNumbers(powerballPool, 5);
-                let pb = pickNumbers(powerballPool.filter(n => !mainPB.includes(n)), 1);
+                let pb = pickBonus(1, 26);
                 powerballResults.innerHTML += `<div class='numbers'>Main: ${mainPB.join(", ")} | Powerball: ${pb}</div>`;
 
                 let mainMM = pickNumbers(megamillionsPool, 5);
-                let mb = pickNumbers(megamillionsPool.filter(n => !mainMM.includes(n)), 1);
+                let mb = pickBonus(1, 24);
                 megamillionsResults.innerHTML += `<div class='numbers'>Main: ${mainMM.join(", ")} | Mega Ball: ${mb}</div>`;
             }
         }
